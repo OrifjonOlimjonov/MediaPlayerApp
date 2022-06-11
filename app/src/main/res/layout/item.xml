@@ -12,7 +12,8 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/imgMusic"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/img_1"
+            android:scaleType="centerCrop"
             android:layout_width="@dimen/_80sdp"
             android:layout_height="@dimen/_80sdp" />
     </androidx.cardview.widget.CardView>

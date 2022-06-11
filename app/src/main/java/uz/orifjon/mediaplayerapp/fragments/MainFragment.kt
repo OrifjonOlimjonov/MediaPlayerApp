@@ -90,15 +90,7 @@ class MainFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
         if (hasPermission()) {
-            list = scanDeviceForMp3Files() as ArrayList<MyMusic>
-            adapter = AdapterRV(list){
-                    music, position ->
-                val bundle = Bundle()
-                bundle.putSerializable("music",music)
-                bundle.putInt("index",position)
-                findNavController().navigate(R.id.playMusicFragment,bundle)
-            }
-            binding.rv.adapter = adapter
+
         } else {
             Toast.makeText(requireContext(), "Not granted", Toast.LENGTH_SHORT).show()
         }
@@ -140,7 +132,7 @@ class MainFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 //                   if (path.endsWith(".mp3")) {
                         val music = MyMusic(aPath = path, aArtist = artist, aName = displayName, aAlbum = album, duration = songDuration)
                         mp3Files.add(music)
-                        MusicDatabase.getDatabase(requireContext()).musicDao().addMusic(music)
+                  //      MusicDatabase.getDatabase(requireContext()).musicDao().addMusic(music)
                   //  }
                 }
             }

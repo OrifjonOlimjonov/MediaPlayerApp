@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/User/AndroidStudioProjects/MediaPlayerapp/app/src/main/res/drawable/btn_back_selected.xml" value="0.157" />
         <entry key="..\:/Users/User/AndroidStudioProjects/MediaPlayerapp/app/src/main/res/drawable/btn_forward_next10.xml" value="0.1515" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/MediaPlayerapp/app/src/main/res/drawable/btn_select.xml" value="0.157" />
         <entry key="..\:/Users/User/AndroidStudioProjects/MediaPlayerapp/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/User/AndroidStudioProjects/MediaPlayerapp/app/src/main/res/layout/fragment_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/User/AndroidStudioProjects/MediaPlayerapp/app/src/main/res/layout/fragment_play_music.xml" value="0.23796296296296296" />
