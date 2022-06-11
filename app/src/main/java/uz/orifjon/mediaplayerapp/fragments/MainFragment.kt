@@ -1,11 +1,8 @@
 package uz.orifjon.mediaplayerapp.fragments
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -13,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vmadalin.easypermissions.EasyPermissions
@@ -21,8 +17,8 @@ import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import uz.orifjon.mediaplayerapp.R
 import uz.orifjon.mediaplayerapp.adapters.AdapterRV
 import uz.orifjon.mediaplayerapp.database.MusicDatabase
-import uz.orifjon.mediaplayerapp.databinding.FragmentMainBinding
 import uz.orifjon.mediaplayerapp.database.MyMusic
+import uz.orifjon.mediaplayerapp.databinding.FragmentMainBinding
 
 
 class MainFragment : Fragment(), EasyPermissions.PermissionCallbacks {
@@ -40,7 +36,10 @@ class MainFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         } else {
             list = scanDeviceForMp3Files() as ArrayList<MyMusic>
             adapter = AdapterRV(list){music, position ->
-              findNavController().navigate(R.id.playMusicFragment)
+                val bundle = Bundle()
+                    bundle.putSerializable("music",music)
+                bundle.putInt("index",position)
+              findNavController().navigate(R.id.playMusicFragment,bundle)
             }
             binding.rv.adapter = adapter
         }
@@ -72,7 +71,10 @@ class MainFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             list = scanDeviceForMp3Files() as ArrayList<MyMusic>
             adapter = AdapterRV(list){
                     music, position ->
-                findNavController().navigate(R.id.playMusicFragment)
+                val bundle = Bundle()
+                bundle.putSerializable("music",music)
+                bundle.putInt("index",position)
+                findNavController().navigate(R.id.playMusicFragment,bundle)
             }
             binding.rv.adapter = adapter
         }
@@ -91,7 +93,10 @@ class MainFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             list = scanDeviceForMp3Files() as ArrayList<MyMusic>
             adapter = AdapterRV(list){
                     music, position ->
-                findNavController().navigate(R.id.playMusicFragment)
+                val bundle = Bundle()
+                bundle.putSerializable("music",music)
+                bundle.putInt("index",position)
+                findNavController().navigate(R.id.playMusicFragment,bundle)
             }
             binding.rv.adapter = adapter
         } else {
@@ -129,11 +134,11 @@ class MainFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     val artist: String = cursor.getString(1)
                     val path: String = cursor.getString(2)
                     val displayName: String = cursor.getString(3)
-                //    val songDuration: String = cursor.getString(4)
+                    val songDuration: Long = cursor.getLong(4)
                     val album:String = cursor.getString(5)
                     cursor.moveToNext()
 //                   if (path.endsWith(".mp3")) {
-                        val music = MyMusic(aPath = path, aArtist = artist, aName = displayName, aAlbum = album)
+                        val music = MyMusic(aPath = path, aArtist = artist, aName = displayName, aAlbum = album, duration = songDuration)
                         mp3Files.add(music)
                         MusicDatabase.getDatabase(requireContext()).musicDao().addMusic(music)
                   //  }

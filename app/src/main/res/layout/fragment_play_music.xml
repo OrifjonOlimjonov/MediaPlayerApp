@@ -84,7 +84,7 @@
             android:layout_width="@dimen/_32sdp"
             android:layout_height="@dimen/_32sdp"
             android:layout_weight="1"
-            android:src="@drawable/btn_forward_back10" />
+            android:src="@drawable/btn_forward_back5" />
 
         <ImageView
             android:id="@+id/btnBack"
@@ -112,7 +112,7 @@
             android:layout_width="@dimen/_32sdp"
             android:layout_height="@dimen/_32sdp"
             android:layout_weight="1"
-            android:src="@drawable/btn_forward_next10" />
+            android:src="@drawable/btn_forward_next5" />
     </LinearLayout>
     <TextView
         android:id="@+id/musicTime"

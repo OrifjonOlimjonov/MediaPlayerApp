@@ -3,6 +3,7 @@ package uz.orifjon.mediaplayerapp.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity
 data class MyMusic(
@@ -16,4 +17,5 @@ data class MyMusic(
     val aAlbum:String,
     @ColumnInfo(name = "artist")
     val aArtist:String,
-)
+    val duration:Long
+):Serializable
