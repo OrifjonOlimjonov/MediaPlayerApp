@@ -26,11 +26,11 @@
         android:id="@+id/musicName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Atirgulim"
+        android:gravity="center"
         android:maxLength="20"
+        android:text="Atirgulim"
         android:textColor="#333333"
         android:textSize="@dimen/_24ssp"
-        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@id/imgCenter"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -53,10 +53,10 @@
         android:id="@+id/musicArtist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:maxLength="20"
         android:text="Anvar Sanayev"
         android:textColor="#333333"
-        android:maxLength="20"
-        android:gravity="center"
         android:textSize="@dimen/_20ssp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -109,7 +109,7 @@
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
             android:layout_weight="1"
-            android:src="@drawable/btn_next_music" />
+            android:src="@drawable/btn_next_selected_is" />
 
         <ImageView
             android:id="@+id/btnNext10"
@@ -118,31 +118,58 @@
             android:layout_weight="1"
             android:src="@drawable/btn_forward_next5" />
     </LinearLayout>
+
     <TextView
         android:id="@+id/musicTime"
-        app:layout_constraintTop_toTopOf="@id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="05:12"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_11ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintHorizontal_bias="0.02"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_11ssp"
-        android:text="05:12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintTop_toTopOf="@id/view"
+        app:layout_constraintVertical_bias="0" />
+
     <TextView
         android:id="@+id/musicMaxTime"
-        app:layout_constraintTop_toTopOf="@id/view"
-        app:layout_constraintLeft_toRightOf="@id/musicTime"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintHorizontal_bias="0.02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/ 15:12"
         android:textColor="@color/black"
         android:textSize="@dimen/_11ssp"
-        android:text="/ 15:12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintLeft_toRightOf="@id/musicTime"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view"
+        app:layout_constraintVertical_bias="0" />
 
+    <TextView
+        android:id="@+id/musicCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 / 120"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_11ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintLeft_toRightOf="@id/musicTime"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view"
+        app:layout_constraintVertical_bias="0" />
+
+    <ImageView
+        android:id="@+id/listImg"
+        android:layout_width="wrap_content"
+        app:layout_constraintVertical_bias="0.08"
+        app:layout_constraintHorizontal_bias="0.95"
+        android:src="@drawable/ic_shape__1_"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

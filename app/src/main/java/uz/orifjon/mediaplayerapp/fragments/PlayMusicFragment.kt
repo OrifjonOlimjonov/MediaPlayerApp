@@ -52,7 +52,7 @@ class PlayMusicFragment : Fragment(), MediaPlayer.OnPreparedListener {
             btnBack.setOnClickListener {
                 mediaPlayer?.stop()
                 if (index == 0) {
-                    playing(list[list.size - 1])
+                    playing(list[list.size-1])
                     index = list.size - 1
                 } else {
                     playing(list[index!! - 1])
