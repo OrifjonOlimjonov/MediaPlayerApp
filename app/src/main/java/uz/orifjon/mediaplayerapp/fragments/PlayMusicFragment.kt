@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import uz.orifjon.mediaplayerapp.R
 import uz.orifjon.mediaplayerapp.database.MyMusic
 import uz.orifjon.mediaplayerapp.databinding.FragmentPlayMusicBinding
@@ -24,16 +25,18 @@ class PlayMusicFragment : Fragment(), MediaPlayer.OnPreparedListener {
     private var mediaPlayer: MediaPlayer? = null
     private lateinit var list: ArrayList<MyMusic>
     private lateinit var handler: Handler
+    private var index:Int = -1
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlayMusicBinding.inflate(inflater)
         val music = arguments?.getSerializable("music") as MyMusic
-        var index = arguments?.getInt("index", -1)
+        index = arguments?.getInt("index", -1)!!
         list = scanDeviceForMp3Files() as ArrayList<MyMusic>
         //MusicDatabase.getDatabase(requireContext()).musicDao().listMusics() as ArrayList<MyMusic>
-
+        binding.musicCount.text ="${(index + 1)} / ${list.size}"
         playing(music)
         binding.apply {
 
@@ -55,9 +58,10 @@ class PlayMusicFragment : Fragment(), MediaPlayer.OnPreparedListener {
                     playing(list[list.size-1])
                     index = list.size - 1
                 } else {
-                    playing(list[index!! - 1])
-                    index = index!! - 1
+                    playing(list[index - 1])
+                    index -= 1
                 }
+                binding.musicCount.text ="${(index + 1)} / ${list.size}"
             }
 
             btnNext.setOnClickListener {
@@ -66,9 +70,10 @@ class PlayMusicFragment : Fragment(), MediaPlayer.OnPreparedListener {
                     playing(list[0])
                     0
                 } else {
-                    playing(list[index!! + 1])
-                    index!! + 1
+                    playing(list[index + 1])
+                    index + 1
                 }
+                binding.musicCount.text ="${(index + 1)} / ${list.size}"
             }
 
             btnBack10.setOnClickListener {
@@ -96,6 +101,11 @@ class PlayMusicFragment : Fragment(), MediaPlayer.OnPreparedListener {
                 }
 
             })
+
+
+        }
+        binding.listImg.setOnClickListener {
+            findNavController().popBackStack()
         }
 
 
@@ -143,6 +153,12 @@ class PlayMusicFragment : Fragment(), MediaPlayer.OnPreparedListener {
         }else if((duration%60000)/1000 < 10 && duration/60000 < 10 ){
             binding.musicMaxTime.text = "/ 0${duration/60000}:0${(duration%60000)/1000}"
         }
+        if (mediaPlayer?.isPlaying == true) {
+            binding.btnPlay.setImageResource(R.drawable.btn_play)
+        } else {
+            binding.btnPlay.setImageResource(R.drawable.btn_pause)
+        }
+        binding.musicCount.text ="${(index + 1)} / ${list.size}"
     }
 
     override fun onPrepared(p0: MediaPlayer?) {

@@ -10,5 +10,6 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 </resources>
