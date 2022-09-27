@@ -6,7 +6,7 @@ import androidx.room.*
 interface MusicDao {
 
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addMusic(music: MyMusic)
 
     @Update

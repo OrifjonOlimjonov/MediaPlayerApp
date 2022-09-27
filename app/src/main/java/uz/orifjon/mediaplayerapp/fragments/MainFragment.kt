@@ -1,6 +1,9 @@
 package uz.orifjon.mediaplayerapp.fragments
 
 import android.Manifest
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.os.Bundle
@@ -10,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vmadalin.easypermissions.EasyPermissions
@@ -19,6 +23,7 @@ import uz.orifjon.mediaplayerapp.adapters.AdapterRV
 import uz.orifjon.mediaplayerapp.database.MusicDatabase
 import uz.orifjon.mediaplayerapp.database.MyMusic
 import uz.orifjon.mediaplayerapp.databinding.FragmentMainBinding
+import uz.orifjon.mediaplayerapp.service.MusicService
 
 
 class MainFragment : Fragment(), EasyPermissions.PermissionCallbacks {
@@ -35,17 +40,22 @@ class MainFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             requestPermission()
         } else {
             list = scanDeviceForMp3Files() as ArrayList<MyMusic>
-            adapter = AdapterRV(list){music, position ->
+            adapter = AdapterRV(list) { music, position ->
+                val intent = Intent(requireContext(), MusicService::class.java)
+                intent.putExtra("key", "STOP")
+                ContextCompat.startForegroundService(requireContext(), intent)
                 val bundle = Bundle()
-                    bundle.putSerializable("music",music)
-                bundle.putInt("index",position)
-              findNavController().navigate(R.id.playMusicFragment,bundle)
+                bundle.putSerializable("music", music)
+                bundle.putInt("index", position)
+                findNavController().navigate(R.id.playMusicFragment, bundle)
             }
             binding.rv.adapter = adapter
         }
 
         return binding.root
     }
+
+
     private fun hasPermission() =
         EasyPermissions.hasPermissions(
             requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
@@ -53,7 +63,7 @@ class MainFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun requestPermission() {
         EasyPermissions.requestPermissions(
-            this, "Kontaktlarni o'qishga ruxsat berishingiz kerak!",
+            this, "Qo'shiqlarni o'qishga ruxsat berishingiz kerak!",
             1,
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
@@ -67,14 +77,13 @@ class MainFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-        if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             list = scanDeviceForMp3Files() as ArrayList<MyMusic>
-            adapter = AdapterRV(list){
-                    music, position ->
+            adapter = AdapterRV(list) { music, position ->
                 val bundle = Bundle()
-                bundle.putSerializable("music",music)
-                bundle.putInt("index",position)
-                findNavController().navigate(R.id.playMusicFragment,bundle)
+                bundle.putSerializable("music", music)
+                bundle.putInt("index", position)
+                findNavController().navigate(R.id.playMusicFragment, bundle)
             }
             binding.rv.adapter = adapter
         }
@@ -98,14 +107,16 @@ class MainFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     override fun shouldShowRequestPermissionRationale(permission: String): Boolean {
         list = scanDeviceForMp3Files() as ArrayList<MyMusic>
-        adapter = AdapterRV(list){music, position ->
-            findNavController().navigate(R.id.playMusicFragment)}
+        adapter = AdapterRV(list) { music, position ->
+            findNavController().navigate(R.id.playMusicFragment)
+        }
         binding.rv.adapter = adapter
         return super.shouldShowRequestPermissionRationale(permission)
     }
-      fun scanDeviceForMp3Files(): List<MyMusic> {
 
-       // val selection = MediaStore.Audio.Media.IS_MUSIC + " != 0"
+    fun scanDeviceForMp3Files(): List<MyMusic> {
+
+        // val selection = MediaStore.Audio.Media.IS_MUSIC + " != 0"
         val projection = arrayOf(
             MediaStore.Audio.Media.TITLE,
             MediaStore.Audio.Media.ARTIST,
@@ -122,18 +133,24 @@ class MainFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             if (cursor != null) {
                 cursor.moveToFirst()
                 while (!cursor.isAfterLast) {
-                 //   val title: String = cursor.getString(0)
+                    //   val title: String = cursor.getString(0)
                     val artist: String = cursor.getString(1)
                     val path: String = cursor.getString(2)
                     val displayName: String = cursor.getString(3)
                     val songDuration: Long = cursor.getLong(4)
-                    val album:String = cursor.getString(5)
+                    val album: String = cursor.getString(5)
                     cursor.moveToNext()
 //                   if (path.endsWith(".mp3")) {
-                        val music = MyMusic(aPath = path, aArtist = artist, aName = displayName, aAlbum = album, duration = songDuration)
-                        mp3Files.add(music)
-                  //      MusicDatabase.getDatabase(requireContext()).musicDao().addMusic(music)
-                  //  }
+                    val music = MyMusic(
+                        aPath = path,
+                        aArtist = artist,
+                        aName = displayName,
+                        aAlbum = album,
+                        duration = songDuration
+                    )
+                    mp3Files.add(music)
+                    //      MusicDatabase.getDatabase(requireContext()).musicDao().addMusic(music)
+                    //  }
                 }
             }
 
